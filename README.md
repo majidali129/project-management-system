@@ -15,7 +15,7 @@ A full-fledged Project Management System built with the MERN stack, featuring re
 - Role-based permissions for different user levels  
 - Search and filtering for tasks and projects  
 - Custom workflows for project-specific needs 
-- Integrations with calendars, code repositories, etc. 
+- Integrations with calendars, code repositories ( OPTIONAL )
 - Real-time updates and notifications 
 
 ### Developer / Team Member  
@@ -86,4 +86,33 @@ npm install
 ```
 cd frontend
 npm install
+```
+## Environment Variables
+```
+PORT=3000
+MONGO_URI=your_mongodb_connection_string
+ACCESS_TOKEN_SECRET_KEY=YOUR_KEY
+ACCESS_TOKEN_EXPIRY=YOUR_EXPIRY_TIME
+REFRESH_TOKEN_SECRET_KEY=YOUR_KEY
+REFRESH_TOKEN_EXPIRY=YOUR_EXPIRY_TIME
+SECRET_KEY=YOUR_SECRET_KEY
+CLIENT_URL=http://localhost:5173
+```
+
+## Run the Project
+### Start the Backend Server
+```
+cd backend
+npm run dev
+```
+### Start the Frontend
+```
+cd backend
+npm run dev
+```
+
+## Testing 🧪
+
+```
+npm run test
 ```
