@@ -14,8 +14,7 @@ A full-fledged Project Management System built with the MERN stack, featuring re
 - Reporting (task completion rates, basic analytics)  
 - Role-based permissions for different user levels  
 - Search and filtering for tasks and projects  
-- Custom workflows for project-specific needs 
-- Integrations with calendars, code repositories ( OPTIONAL )
+- Custom workflows for project-specific needs
 - Real-time updates and notifications 
 
 ### Developer / Team Member  
@@ -33,9 +32,9 @@ A full-fledged Project Management System built with the MERN stack, featuring re
 
 ### Frontend  
 - **React.js** – Modern UI development  
-- **Redux Toolkit / Context API** – State management  
-- **Tailwind CSS / Material UI** – Styling and design system  
-- **React Query / SWR** – Data fetching and caching (optional)
+- **Redux Toolkit & Context API** – State management  
+- **Tailwind CSS & ShadcnUI** – Styling and design system  
+- **React Query ** – Data fetching and caching
 
 ## Tooling
 - **TypeScript** - Static type cheker ( type safety )
@@ -57,7 +56,7 @@ A full-fledged Project Management System built with the MERN stack, featuring re
 - **JWT (JSON Web Tokens)** – Secure authentication  
 - **Role-Based Access Control (RBAC)** – Admin, Project Manager, Developer
 
-### Additional Integrations (Advanced)  
+### Additional Integrations ( optional )
 - **Calendar Integration (Google Calendar, Outlook API)** – Task scheduling  
 - **GitHub/GitLab API** – Code repository integration  
 - **Payment Gateway (Stripe / PayPal)** – If monetizing project management features
