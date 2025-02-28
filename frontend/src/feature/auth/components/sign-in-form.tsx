@@ -27,7 +27,7 @@ const SignInForm = () => {
     },
   });
 
-  const onSubmit = (data: SignUpFormValues) => {
+  const onSubmit = (data: SignInFormValues) => {
     console.log("Form Submitted: ", data);
   };
 

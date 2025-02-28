@@ -1,12 +1,13 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+// import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+// import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Route, Routes } from "react-router";
-import OnboardingPage from "./feature/auth/components/on-boarding-form";
 import ForgotPassword from "./pages/forgot-password";
+import OnBoarding from "./pages/on-boarding";
 import SignIn from "./pages/sign-in";
 import SignUp from "./pages/sing-up";
 import UpdatePassword from "./pages/update-password";
-import VerifyOtp from "./pages/verify-otp";
+import VerifyEmail from "./pages/verify-email";
+import VerifyPasswordResetOtp from "./pages/verify-otp";
 
 // const queryClient = new QueryClient({
 //   defaultOptions: {},
@@ -19,9 +20,10 @@ const App = () => {
         <Route path="/users/sign-up" element={<SignUp />} />
         <Route path="/users/sign-in" element={<SignIn />} />
         <Route path="/users/forgot-password" element={<ForgotPassword />} />
-        <Route path="/users/verify-otp" element={<VerifyOtp />} />
+        <Route path="/users/verify-otp" element={<VerifyPasswordResetOtp />} />
         <Route path="/users/update-password" element={<UpdatePassword />} />
-        <Route path="/get-started" element={<OnboardingPage />} />
+        <Route path="/users/verify-email" element={<VerifyEmail />} />
+        <Route path="/get-started" element={<OnBoarding />} />
       </Routes>
       {/* </QueryClientProvider> */}
       {/* <ReactQueryDevtools initialIsOpen={false} /> */}

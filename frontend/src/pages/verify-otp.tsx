@@ -1,6 +1,6 @@
-import VerifyOtpForm from "../feature/auth/components/virify-code-form";
+import VerifyPasswordResetOtpForm from "../feature/auth/components/virify-password-reset-otp-form";
 
-const VerifyOtp = () => {
-  return <VerifyOtpForm />;
+const VerifyPasswordResetOtp = () => {
+  return <VerifyPasswordResetOtpForm />;
 };
-export default VerifyOtp;
+export default VerifyPasswordResetOtp;
