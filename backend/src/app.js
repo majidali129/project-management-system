@@ -57,7 +57,7 @@ app.use((req, _, next) => {
 });
 
 app.all("*", (req, _, next) => {
-  next(new appError(`Can't find ${req.originalUrl} on this server`, 404));
+  next(new appError(`Can't find ${req.originalUrl} on this server.`, 404));
 });
 
 // GLOBAL ERROR HANDLER
