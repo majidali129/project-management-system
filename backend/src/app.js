@@ -1,11 +1,11 @@
-import express from "express";
+import express from 'express';
 
-import bodyParser from "body-parser";
-import mongoSanitize from "express-mongo-sanitize";
-import rateLimit from "express-rate-limit";
-import helmet from "helmet";
-import morgan from "morgan";
-import { appError } from "./utils/app-error.js";
+import bodyParser from 'body-parser';
+import mongoSanitize from 'express-mongo-sanitize';
+import rateLimit from 'express-rate-limit';
+import helmet from 'helmet';
+import morgan from 'morgan';
+import { appError } from './utils/app-error.js';
 
 // import xss from 'xss-clean';
 // import hpp from 'hpp'
@@ -17,26 +17,27 @@ app.use(helmet());
 
 // Limit The Request from same IP;
 const limiter = rateLimit({
-  limit: 100,
-  windowMs: 60 * 60 * 1000,
-  message: "Too many requests from this IP. Try again after 45 minutes",
+    limit: 100,
+    windowMs: 60 * 60 * 1000,
+    message: 'Too many requests from this IP. Try again after 45 minutes',
 });
 
 // DEVELOMPMENT LGGING ONLY
-if (process.env.NODE_ENV === "development") {
-  app.use(morgan("dev"));
+if (process.env.NODE_ENV === 'development') {
+    app.use(morgan('dev'));
 }
 
+app.get('/', (req, res) => res.json({ message: 'Hi there from Majid Ali', url: req.ip }));
 // TO ACCEPT BODY IN THE REQUEST
-app.use(express.json({ limit: "100kb" }));
+app.use(express.json({ limit: '100kb' }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 // TO SERVE STATIC FILES
-app.use(express.static("./public"));
+app.use(express.static('./public'));
 
 // TO PREVENT BRUTE-FORCE/DOC ATTACK
-app.use("/api", limiter);
+app.use('/api', limiter);
 
 // Sanitize data against noSQL query injection
 app.use(mongoSanitize());
@@ -52,12 +53,12 @@ app.use(mongoSanitize());
 //   );
 
 app.use((req, _, next) => {
-  //   req.requestTime = new Date().toISOString();
-  next();
+    //   req.requestTime = new Date().toISOString();
+    next();
 });
 
-app.all("*", (req, _, next) => {
-  next(new appError(`Can't find ${req.originalUrl} on this server.`, 404));
+app.all('*', (req, _, next) => {
+    next(new appError(`Can't find ${req.originalUrl} on this server.`, 404));
 });
 
 // GLOBAL ERROR HANDLER
