@@ -22,6 +22,7 @@ import UserTasksPage from "./pages/user/tasks";
 import VerifyEmail from "./pages/verify-email";
 import VerifyPasswordResetOtp from "./pages/verify-otp";
 import AppLayout from "./ui/app-layout";
+import AuthLayout from "./ui/auth-layout";
 
 // const queryClient = new QueryClient({
 //   defaultOptions: {},
@@ -58,13 +59,19 @@ const App = () => {
             <Route path="settings" element={<UserSettingsPage />} />
           </Route>
         </Route>
-        <Route path="/users/sign-up" element={<SignUp />} />
-        <Route path="/users/sign-in" element={<SignIn />} />
-        <Route path="/users/forgot-password" element={<ForgotPassword />} />
-        <Route path="/users/verify-otp" element={<VerifyPasswordResetOtp />} />
-        <Route path="/users/update-password" element={<UpdatePassword />} />
-        <Route path="/users/verify-email" element={<VerifyEmail />} />
-        <Route path="/get-started" element={<OnBoarding />} />
+
+        <Route element={<AuthLayout />}>
+          <Route path="/users/sign-up" element={<SignUp />} />
+          <Route path="/users/sign-in" element={<SignIn />} />
+          <Route path="/users/forgot-password" element={<ForgotPassword />} />
+          <Route
+            path="/users/verify-otp"
+            element={<VerifyPasswordResetOtp />}
+          />
+          <Route path="/users/update-password" element={<UpdatePassword />} />
+          <Route path="/users/verify-email" element={<VerifyEmail />} />
+          <Route path="/get-started" element={<OnBoarding />} />
+        </Route>
       </Routes>
       {/* </QueryClientProvider> */}
       {/* <ReactQueryDevtools initialIsOpen={false} /> */}
