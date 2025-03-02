@@ -5,7 +5,6 @@ import Button from "../../../ui/button";
 import FormItem from "../../../ui/form-item";
 import FormWrapper from "../../../ui/form-wrapper";
 import InputErrorMessage from "../../../ui/input-error-message";
-import FormContainer from "./form-container";
 
 type SignUpFormValues = {
   email: string;
@@ -28,41 +27,39 @@ const ForgotPasswordForm = () => {
   };
 
   return (
-    <FormContainer>
-      <FormWrapper>
-        <h2 className="text-2xl md:text-4xl font-semibold">Forgot Password</h2>
-        <p className="tracking-wide text-slate-900 dark:text-slate-100/70">
-          We will send you an email with instructions on how to reset your
-          password.
-        </p>
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="space-y-3 md:space-y-4"
-        >
-          {/* Email */}
-          <FormItem label="Provide your email" name="email">
-            <Input
-              type="email"
-              placeholder="lora@gmail.com"
-              {...register("email", {
-                required: "Email is required",
-                pattern: {
-                  value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                  message: "Invalid email format",
-                },
-              })}
-            />
-            {errors.email && (
-              <InputErrorMessage>{errors.email.message}</InputErrorMessage>
-            )}
-          </FormItem>
+    <FormWrapper>
+      <h2 className="text-2xl md:text-4xl font-semibold">Forgot Password</h2>
+      <p className="tracking-wide text-slate-900 dark:text-slate-100/70">
+        We will send you an email with instructions on how to reset your
+        password.
+      </p>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="space-y-3 md:space-y-4"
+      >
+        {/* Email */}
+        <FormItem label="Provide your email" name="email">
+          <Input
+            type="email"
+            placeholder="lora@gmail.com"
+            {...register("email", {
+              required: "Email is required",
+              pattern: {
+                value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                message: "Invalid email format",
+              },
+            })}
+          />
+          {errors.email && (
+            <InputErrorMessage>{errors.email.message}</InputErrorMessage>
+          )}
+        </FormItem>
 
-          <div className="flex justify-end">
-            <Button type="submit">Email Me</Button>
-          </div>
-        </form>
-      </FormWrapper>
-    </FormContainer>
+        <div className="flex justify-end">
+          <Button type="submit">Email Me</Button>
+        </div>
+      </form>
+    </FormWrapper>
   );
 };
 export default ForgotPasswordForm;
