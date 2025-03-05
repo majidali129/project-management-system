@@ -1,8 +1,8 @@
+import { Button } from "@/components/ui/button";
 import { ChangeEvent, FormEvent, useState } from "react";
-import Button from "../../../ui/button";
-import FormItem from "../../../ui/form-item";
-import FormWrapper from "../../../ui/form-wrapper";
-import Input from "../../../ui/Input";
+import FormItem from "../../../components/form-item";
+import FormWrapper from "../../../components/form-wrapper";
+import Input from "../../../components/Input";
 
 const VerifyPasswordResetOtpForm = () => {
   const [otp, setOtp] = useState<string[]>(Array(5).fill(""));

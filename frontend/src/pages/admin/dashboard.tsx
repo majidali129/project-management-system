@@ -1,4 +1,6 @@
+import AdminDashboard from "../../feature/admin/admin-dashboard";
+
 const AdminDashboardPage = () => {
-  return <div>AdminDashboardPage</div>;
+  return <AdminDashboard />;
 };
 export default AdminDashboardPage;
