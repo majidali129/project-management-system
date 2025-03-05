@@ -8,7 +8,7 @@ const Sidebar = () => {
 
   const activeLinks = role === "admin" ? adminLinks : userLinks;
   return (
-    <aside className="h-ful py-1.5 md:pb-2 bg-slate-900 relative grid grid-rows-[80px_1fr_50px] md:grid-rows-[80px_1fr_45px] *:px-3.5 border-r border-r-slate-500/50">
+    <aside className="h-full max-h-screen py-1.5 bg-slate-50 md:pb-2 dark:bg-slate-900 grid grid-rows-[80px_1fr_50px] md:grid-rows-[80px_1fr_45px] *:px-3.5 dark:border-r  border-r-slate-500/50">
       <NavLink
         to={"/"}
         className="text-2xl font-bold max-sm:max-w-[76px] flex items-center justify-center gap-1.5"
@@ -27,9 +27,9 @@ const Sidebar = () => {
             key={link.label}
             to={link.path}
             className={({ isActive }) =>
-              `bg-slate-800  py-2 text-lg px-4 flex items-center gap-3 max-sm:py-4  md:w-full rounded-xs  ${
+              `dark:bg-slate-800 bg-slate-100 not-dark:hover:bg-slate-200 text-slate-950 dark:text-slate-50    py-2 text-lg px-4 flex items-center gap-3 max-sm:py-4  md:w-full rounded-xs  ${
                 isActive
-                  ? "text-slate-50 !bg-gradient-to-r !from-blue-200/50 !to-amber-300/50"
+                  ? "!text-slate-50 !bg-gradient-to-r dark:!from-blue-200/50 dark:!to-amber-300/50 !from-blue-700/90 !to-amber-400/90"
                   : ""
               }`
             }

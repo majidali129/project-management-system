@@ -1,11 +1,11 @@
+import { Button } from "@/components/ui/button";
 import { EyeIcon, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import Input from "../../../ui/Input";
-import Button from "../../../ui/button";
-import FormItem from "../../../ui/form-item";
-import FormWrapper from "../../../ui/form-wrapper";
-import InputErrorMessage from "../../../ui/input-error-message";
+import Input from "../../../components/Input";
+import FormItem from "../../../components/form-item";
+import FormWrapper from "../../../components/form-wrapper";
+import InputErrorMessage from "../../../components/input-error-message";
 
 type SignUpFormValues = {
   userName: string;

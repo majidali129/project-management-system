@@ -1,6 +1,8 @@
 // import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 // import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Navigate, Route, Routes } from "react-router";
+import AppLayout from "./components/app-layout";
+import AuthLayout from "./components/auth-layout";
 import AdminActivityPage from "./pages/admin/creativity";
 import AdminDashboardPage from "./pages/admin/dashboard";
 import AdminProfilePage from "./pages/admin/profile";
@@ -21,8 +23,6 @@ import UserSettingsPage from "./pages/user/settings";
 import UserTasksPage from "./pages/user/tasks";
 import VerifyEmail from "./pages/verify-email";
 import VerifyPasswordResetOtp from "./pages/verify-otp";
-import AppLayout from "./ui/app-layout";
-import AuthLayout from "./ui/auth-layout";
 
 // const queryClient = new QueryClient({
 //   defaultOptions: {},
@@ -70,8 +70,8 @@ const App = () => {
           />
           <Route path="/users/update-password" element={<UpdatePassword />} />
           <Route path="/users/verify-email" element={<VerifyEmail />} />
-          <Route path="/get-started" element={<OnBoarding />} />
         </Route>
+        <Route path="/get-started" element={<OnBoarding />} />
       </Routes>
       {/* </QueryClientProvider> */}
       {/* <ReactQueryDevtools initialIsOpen={false} /> */}
