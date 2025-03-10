@@ -30,5 +30,3 @@ const FormItem = ({
   );
 };
 export default FormItem;
-
-// dark-main-bg =

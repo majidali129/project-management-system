@@ -11,12 +11,10 @@ const StatsCard = ({ title, value }: StatusCardProps) => {
     <Card>
       <div className="p-5 py-0">
         <div className="flex items-center">
-          <LucideUsers2 className="w-5 h-5" />
+          <LucideUsers2 className="w-5 h-5 text-text" />
           <div className="ml-5 w-0 flex-1">
-            <CardTitle className="text-sm text-zinc-300 tracking-wide">
-              {title}
-            </CardTitle>
-            <div className="text-2xl font-medium text">{value}</div>
+            <CardTitle className="text-sm dark:text-zinc-400 text-zinc-600 tracking-wide">{title}</CardTitle>
+            <div className="text-2xl font-medium text-text">{value}</div>
           </div>
         </div>
       </div>

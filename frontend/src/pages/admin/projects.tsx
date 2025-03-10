@@ -1,4 +1,6 @@
+import Projects from "@/feature/admin/projects";
+
 const AdminProjectsPage = () => {
-  return <div>AdminProjectsPage</div>;
+  return <Projects />;
 };
 export default AdminProjectsPage;

@@ -1,4 +1,4 @@
-import VerifyEmailForm from "../feature/auth/components/verify-email-code-form";
+import VerifyEmailForm from "../feature/authentication/components/verify-email-code-form";
 
 const VerifyEmail = () => {
   return <VerifyEmailForm />;

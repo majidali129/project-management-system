@@ -5,7 +5,6 @@ import AppLayout from "./components/app-layout";
 import AuthLayout from "./components/auth-layout";
 import AdminActivityPage from "./pages/admin/creativity";
 import AdminDashboardPage from "./pages/admin/dashboard";
-import AdminProfilePage from "./pages/admin/profile";
 import AdminProjectsPage from "./pages/admin/projects";
 import AdminSettingsPage from "./pages/admin/settings";
 import AdminTasksPage from "./pages/admin/tasks";
@@ -17,7 +16,6 @@ import SignUp from "./pages/sing-up";
 import UpdatePassword from "./pages/update-password";
 import UserCreativityPage from "./pages/user/creativity";
 import UserDashboardPage from "./pages/user/dashboard";
-import UserProfilePage from "./pages/user/profile";
 import UserProjectsPage from "./pages/user/projects";
 import UserSettingsPage from "./pages/user/settings";
 import UserTasksPage from "./pages/user/tasks";
@@ -42,7 +40,6 @@ const App = () => {
             <Route path="tasks" element={<AdminTasksPage />} />
             <Route path="teams" element={<AdminTeamsPage />} />
             <Route path="creativity" element={<AdminActivityPage />} />
-            <Route path="profile" element={<AdminProfilePage />} />
             <Route path="settings" element={<AdminSettingsPage />} />
           </Route>
         </Route>
@@ -55,7 +52,6 @@ const App = () => {
             <Route path="projects" element={<UserProjectsPage />} />
             <Route path="tasks" element={<UserTasksPage />} />
             <Route path="creativity" element={<UserCreativityPage />} />
-            <Route path="profile" element={<UserProfilePage />} />
             <Route path="settings" element={<UserSettingsPage />} />
           </Route>
         </Route>

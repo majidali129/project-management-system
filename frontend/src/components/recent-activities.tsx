@@ -1,12 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-import {
-  Calendar,
-  CheckCircle2,
-  Clock,
-  MessageSquare,
-  Plus,
-} from "lucide-react";
+import { Calendar, CheckCircle2, Clock, MessageSquare, Plus } from "lucide-react";
 import { ReactElement } from "react";
 
 interface Activity {
@@ -100,39 +94,22 @@ const RecentActivities = () => {
             groupedActivities[dateGroup].length > 0 && (
               <div key={dateGroup} className="relative">
                 <div className="sticky top-0 z-20 mb-4 bg-muted dark:bg-muted/70 px-2 pb-2 pt-2">
-                  <h3 className="text-sm font-medium capitalize">
-                    {dateGroup === "today"
-                      ? "Today"
-                      : dateGroup === "yesterday"
-                      ? "Yesterday"
-                      : "Earlier this week"}
-                  </h3>
+                  <h3 className="text-sm font-medium capitalize">{dateGroup === "today" ? "Today" : dateGroup === "yesterday" ? "Yesterday" : "Earlier this week"}</h3>
                 </div>
                 <div className="space-y-4">
                   {groupedActivities[dateGroup].map((activity) => (
                     <div key={activity.id} className="relative flex gap-4">
                       <div className="absolute left-0 top-0 flex h-14 w-14 items-center justify-center">
                         <Avatar className="w-7 h-7 md:h-10 md:w-10">
-                          <AvatarImage
-                            src={activity.user.avatar}
-                            alt={activity.user.name}
-                          />
-                          <AvatarFallback className="text-xs  md:text-lg bg-slate-200 dark:bg-slate-950">
-                            {activity.user.initials}
-                          </AvatarFallback>
+                          <AvatarImage src={activity.user.avatar} alt={activity.user.name} />
+                          <AvatarFallback className="text-xs text-text  md:text-lg bg-slate-200 dark:bg-slate-950">{activity.user.initials}</AvatarFallback>
                         </Avatar>
                       </div>
                       <div className="flex-1 rounded  bg-card p-4 pl-14 shadow-lg border-t">
                         <div className="flex flex-col md:flex-row  gap-0.5 md:gap-1.5 ">
-                          <div className="text-nowrap">
-                            {activity.user.name}
-                          </div>
-                          <div className="text-xs mt-0.5 text-nowrap md:text-sm text-muted-foreground">
-                            {activity.action}
-                          </div>
-                          <div className="text-xs md:text-sm line-clamp-2">
-                            {activity.target}
-                          </div>
+                          <div className="text-nowrap text-text lg:font-medium">{activity.user.name}</div>
+                          <div className="text-xs mt-0.5 text-nowrap md:text-sm text-muted-foreground">{activity.action}</div>
+                          <div className="text-xs md:text-sm line-clamp-2 text-text">{activity.target}</div>
                         </div>
                         <div className="mt-1.5 flex md:items-center flex-col md:flex-row gap-2 text-sm text-muted-foreground">
                           <div className="flex items-center gap-1">
