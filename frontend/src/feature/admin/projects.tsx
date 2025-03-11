@@ -2,10 +2,7 @@ import List from "@/components/list";
 import CustomSelect from "@/components/my-select";
 import ProjectCard from "@/components/project-card";
 import ProjectFilters from "@/components/project-filters";
-import Search from "@/components/search";
-import { Button } from "@/components/ui/button";
 import { projectSortOptions } from "@/data";
-import { useState } from "react";
 
 const sampleProject = {
   id: "proj-1",
@@ -41,19 +38,14 @@ const sampleProject = {
 };
 
 const Projects = () => {
-  const [showProjects, setShowProjects] = useState(false);
-  const handleShowProjects = () => setShowProjects((show) => !show);
   return (
     <section>
       <h2>Projects</h2>
-      <div className="grid items-center grid-cols-1 lg:grid-cols-[1fr_100px_100px] gap-4  justify-between">
-        <Search placeholder="Search projects ..." />
-
+      {/* <ProjectFilters /> */}
+      <ProjectFilters>
+        {/* JUST TO AVOID CHILD's RE-RENDER ON FILTER CHANGE */}
         <CustomSelect urlKey="sort" options={projectSortOptions} placeholder="Sort By" />
-        <Button onClick={handleShowProjects}>Apply Filters</Button>
-        {/* <ProjectFilters /> */}
-      </div>
-      {showProjects && <ProjectFilters onCancel={() => setShowProjects(false)} />}
+      </ProjectFilters>
       {/* Projects List */}
       <List className="sm:grid-cols-1">
         <ProjectCard project={sampleProject} />
