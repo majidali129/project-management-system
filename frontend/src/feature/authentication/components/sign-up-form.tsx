@@ -12,7 +12,6 @@ type SignUpFormValues = {
   fullName: string;
   email: string;
   password: string;
-  confirmPassword: string;
 };
 
 const SignUpForm = () => {
@@ -40,33 +39,18 @@ const SignUpForm = () => {
 
   return (
     <FormWrapper>
-      <h2 className="text-2xl md:text-4xl font-semibold text-center">
-        Sign Up
-      </h2>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="space-y-3 md:space-y-4"
-      >
+      <h2 className="text-2xl md:text-4xl font-semibold text-center">Sign Up</h2>
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-3 md:space-y-4">
         {/* Username */}
         <FormItem name="userName" label="Username">
-          <Input
-            type="text"
-            {...register("userName", { required: "Username is required" })}
-          />
+          <Input type="text" {...register("userName", { required: "Username is required" })} />
 
-          {errors.userName && (
-            <InputErrorMessage>{errors.userName.message}</InputErrorMessage>
-          )}
+          {errors.userName && <InputErrorMessage>{errors.userName.message}</InputErrorMessage>}
         </FormItem>
 
         <FormItem label="Your Full Name*" name="fullName">
-          <Input
-            type="text"
-            {...register("fullName", { required: "Full name is required" })}
-          />
-          {errors.fullName && (
-            <InputErrorMessage>{errors.fullName.message}</InputErrorMessage>
-          )}
+          <Input type="text" {...register("fullName", { required: "Full name is required" })} />
+          {errors.fullName && <InputErrorMessage>{errors.fullName.message}</InputErrorMessage>}
         </FormItem>
 
         {/* Email */}
@@ -81,9 +65,7 @@ const SignUpForm = () => {
               },
             })}
           />
-          {errors.email && (
-            <InputErrorMessage>{errors.email.message}</InputErrorMessage>
-          )}
+          {errors.email && <InputErrorMessage>{errors.email.message}</InputErrorMessage>}
         </FormItem>
 
         {/* Password */}
@@ -99,20 +81,11 @@ const SignUpForm = () => {
                 },
               })}
             />
-            <span
-              onClick={() => setShowPassword(!showPassword)}
-              className="absolute top-1/2 right-2 transform -translate-y-1/2 cursor-pointer"
-            >
-              {showPassword ? (
-                <EyeOff className="w-5 h-5 text-slate-900 dark:text-slate-200" />
-              ) : (
-                <EyeIcon className="w-5 h-5 text-slate-900 dark:text-slate-200" />
-              )}
+            <span onClick={() => setShowPassword(!showPassword)} className="absolute top-1/2 right-2 transform -translate-y-1/2 cursor-pointer">
+              {showPassword ? <EyeOff className="w-5 h-5 text-slate-900 dark:text-slate-200" /> : <EyeIcon className="w-5 h-5 text-slate-900 dark:text-slate-200" />}
             </span>
           </div>
-          {errors.password && (
-            <InputErrorMessage>{errors.password.message}</InputErrorMessage>
-          )}
+          {errors.password && <InputErrorMessage>{errors.password.message}</InputErrorMessage>}
         </FormItem>
 
         {/* Confirm Password */}
@@ -121,15 +94,10 @@ const SignUpForm = () => {
             type={showPassword ? "text" : "password"}
             {...register("confirmPassword", {
               required: "Confirm password is required",
-              validate: (value) =>
-                value === watch("password") || "Passwords do not match",
+              validate: (value) => value === watch("password") || "Passwords do not match",
             })}
           />
-          {errors.confirmPassword && (
-            <InputErrorMessage>
-              {errors.confirmPassword.message}
-            </InputErrorMessage>
-          )}
+          {errors.confirmPassword && <InputErrorMessage>{errors.confirmPassword.message}</InputErrorMessage>}
         </FormItem>
 
         {/* Submit Button */}

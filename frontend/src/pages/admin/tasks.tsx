@@ -1,4 +1,6 @@
+import Tasks from "@/feature/admin/tasks";
+
 const AdminTasksPage = () => {
-  return <div>AdminTasksPage</div>;
+  return <Tasks />;
 };
 export default AdminTasksPage;

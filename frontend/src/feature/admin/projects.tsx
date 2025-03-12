@@ -2,7 +2,9 @@ import List from "@/components/list";
 import CustomSelect from "@/components/my-select";
 import ProjectCard from "@/components/project-card";
 import ProjectFilters from "@/components/project-filters";
+import { Button } from "@/components/ui/button";
 import { projectSortOptions } from "@/data";
+import { Plus } from "lucide-react";
 
 const sampleProject = {
   id: "proj-1",
@@ -40,7 +42,16 @@ const sampleProject = {
 const Projects = () => {
   return (
     <section>
-      <h2>Projects</h2>
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <h2>Projects</h2>
+          <span className="text-xl ml-1.5 -mb-1">( 24 )</span>
+        </div>
+        <Button size="sm" className="h-9">
+          <Plus className="mr-1 h-4 w-4" />
+          Add New Project
+        </Button>
+      </div>
       {/* <ProjectFilters /> */}
       <ProjectFilters>
         {/* JUST TO AVOID CHILD's RE-RENDER ON FILTER CHANGE */}

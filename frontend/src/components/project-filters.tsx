@@ -29,7 +29,7 @@ const tags = [
 ];
 
 const ProjectFilters = ({ children }: { children: ReactNode }) => {
-  const [showProjects, setShowProjects] = useState(false);
+  const [showFilters, setShowFilters] = useState(false);
   const [selectedStatuses, setSelectedStatuses] = useState<string[]>([]);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [progressRange, setProgressRange] = useState<[number, number]>([0, 100]);
@@ -40,7 +40,7 @@ const ProjectFilters = ({ children }: { children: ReactNode }) => {
   const handleTagsSelection = useCallback((tag: string) => {
     setSelectedTags((prev) => (prev.includes(tag) ? prev.filter((item) => item !== tag) : [...prev, tag]));
   }, []);
-  const handleShowProjects = () => setShowProjects((show) => !show);
+  const handleShowProjects = () => setShowFilters((show) => !show);
 
   const handleClearFilters = () => {
     setProgressRange([0, 100]);
@@ -58,7 +58,6 @@ const ProjectFilters = ({ children }: { children: ReactNode }) => {
         <Search placeholder="Search projects ..." />
         {children}
 
-        {/* <Button onClick={handleShowProjects}>Apply Filters</Button> */}
         <Button variant={hasActiveFilters() ? "default" : "outline"} className={cn(`gap-1  ${hasActiveFilters()}`)} onClick={handleShowProjects}>
           <Filter className="h-4 w-4" />
           <span className="hidden sm:inline ">Filter</span>
@@ -69,7 +68,7 @@ const ProjectFilters = ({ children }: { children: ReactNode }) => {
           )}
         </Button>
       </div>
-      {showProjects && (
+      {showFilters && (
         <Card className="px-4">
           <CardHeader className="flex flex-row !text-sm items-center justify-between md:px-0 text-text">
             <span className="text-lg">Filters</span>
@@ -122,7 +121,7 @@ const ProjectFilters = ({ children }: { children: ReactNode }) => {
           <CardFooter className="md:px-4">
             <div className="text-sm text-muted-foreground md:w-2/3">{hasActiveFilters() ? "Showing filtered results" : "Showing all projects"}</div>
             <div className="flex gap-2 md:justify-end md:w-full">
-              <Button variant="outline" size="sm" onClick={() => setShowProjects(false)}>
+              <Button variant="outline" size="sm" onClick={() => setShowFilters(false)}>
                 Cancel
               </Button>
               <Button size="sm">Apply Filters</Button>
