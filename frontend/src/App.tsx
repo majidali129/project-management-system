@@ -1,77 +1,71 @@
-// import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-// import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { useState } from "react";
 import { Navigate, Route, Routes } from "react-router";
 import AppLayout from "./components/app-layout";
 import AuthLayout from "./components/auth-layout";
-import AdminActivityPage from "./pages/admin/creativity";
-import AdminDashboardPage from "./pages/admin/dashboard";
-import AdminProjectsPage from "./pages/admin/projects";
-import AdminSettingsPage from "./pages/admin/settings";
-import AdminTasksPage from "./pages/admin/tasks";
-import AdminTeamsPage from "./pages/admin/teams";
-import ForgotPassword from "./pages/forgot-password";
+import ProteceteRoute from "./components/protected-route";
+import CreativityPage from "./pages/creativity";
+import DashboardPage from "./pages/dashboard";
+import ForgotPasswordPage from "./pages/forgot-password";
 import OnBoarding from "./pages/on-boarding";
-import SignIn from "./pages/sign-in";
-import SignUp from "./pages/sing-up";
-import UpdatePassword from "./pages/update-password";
-import UserCreativityPage from "./pages/user/creativity";
-import UserDashboardPage from "./pages/user/dashboard";
-import UserProjectsPage from "./pages/user/projects";
-import UserSettingsPage from "./pages/user/settings";
-import UserTasksPage from "./pages/user/tasks";
-import VerifyEmail from "./pages/verify-email";
-import VerifyPasswordResetOtp from "./pages/verify-otp";
+import ProjectsPage from "./pages/projects";
+import SettingsPage from "./pages/settings";
+import SignInPage from "./pages/sign-in";
+import SignUpPage from "./pages/sing-up";
+import TasksPage from "./pages/tasks";
+import TeamsPage from "./pages/teams";
+import UpdatePasswordPage from "./pages/update-password";
+import UpdateProfilePage from "./pages/update-profile";
+import VerifyEmailPage from "./pages/verify-email";
+import VerifyPasswordResetOtpPage from "./pages/verify-otp";
+import Providers from "./providers/provider";
 
-// const queryClient = new QueryClient({
-//   defaultOptions: {},
-// });
 const App = () => {
+  const [role] = useState("admin");
   return (
-    <section className="min-h-screen w-full ">
-      {/* <QueryClientProvider client={queryClient}> */}
+    <Providers>
       <Routes>
-        {/* 🔹 Admin Routes (Nested inside AdminLayout) */}
-        <Route path="admin">
-          <Route element={<AppLayout />}>
-            {/* Redirect /admin to /admin/dashboard */}
-            <Route index element={<Navigate replace to="dashboard" />} />
-            <Route path="dashboard" index element={<AdminDashboardPage />} />
-            <Route path="projects" element={<AdminProjectsPage />} />
-            <Route path="tasks" element={<AdminTasksPage />} />
-            <Route path="teams" element={<AdminTeamsPage />} />
-            <Route path="creativity" element={<AdminActivityPage />} />
-            <Route path="settings" element={<AdminSettingsPage />} />
-          </Route>
-        </Route>
+        <Route
+          element={
+            <ProteceteRoute>
+              <AppLayout />
+            </ProteceteRoute>
+          }
+        >
+          {/* Redirect to the correct dashboard based on role */}
+          <Route index element={<Navigate replace to={role === "admin" ? "/dashboard/admin" : `/dashboard/${"majid"}`} />} />
 
-        {/* 🔹 User Routes (Nested inside UserLayout) */}
-        <Route path="user">
-          <Route element={<AppLayout />}>
-            <Route index element={<Navigate replace to="dashboard" />} />
-            <Route path="dashboard" element={<UserDashboardPage />} />
-            <Route path="projects" element={<UserProjectsPage />} />
-            <Route path="tasks" element={<UserTasksPage />} />
-            <Route path="creativity" element={<UserCreativityPage />} />
-            <Route path="settings" element={<UserSettingsPage />} />
-          </Route>
+          {/* Admin Dashboard */}
+          <Route path="/dashboard/admin" element={role === "admin" ? <DashboardPage /> : <Navigate to={`/dashboard/${"majid"}`} />} />
+
+          {/* User Dashboard */}
+          <Route path="/dashboard/:username" element={<DashboardPage />} />
+          <Route path="projects" element={<ProjectsPage />} />
+          <Route path="tasks" element={<TasksPage />} />
+          <Route path="teams" element={<TeamsPage />} />
+          <Route path="creativity" element={<CreativityPage />} />
+          <Route path="settings" element={<SettingsPage />} />
         </Route>
 
         <Route element={<AuthLayout />}>
-          <Route path="/users/sign-up" element={<SignUp />} />
-          <Route path="/users/sign-in" element={<SignIn />} />
-          <Route path="/users/forgot-password" element={<ForgotPassword />} />
-          <Route
-            path="/users/verify-otp"
-            element={<VerifyPasswordResetOtp />}
-          />
-          <Route path="/users/update-password" element={<UpdatePassword />} />
-          <Route path="/users/verify-email" element={<VerifyEmail />} />
+          <Route path="/users/sign-up" element={<SignUpPage />} />
+          <Route path="/users/sign-in" element={<SignInPage />} />
+          <Route path="/users/forgot-password" element={<ForgotPasswordPage />} />
+          <Route path="/users/verify-otp" element={<VerifyPasswordResetOtpPage />} />
+          <Route path="/users/verify-email" element={<VerifyEmailPage />} />
+        </Route>
+        <Route
+          element={
+            <ProteceteRoute>
+              <AuthLayout />
+            </ProteceteRoute>
+          }
+        >
+          <Route path="/users/update-password" element={<UpdatePasswordPage />} />
+          <Route path="/users/update-profile" element={<UpdateProfilePage />} />
         </Route>
         <Route path="/get-started" element={<OnBoarding />} />
       </Routes>
-      {/* </QueryClientProvider> */}
-      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
-    </section>
+    </Providers>
   );
 };
 export default App;

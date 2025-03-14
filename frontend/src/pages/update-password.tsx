@@ -1,6 +1,6 @@
-import UpdatePasswordForm from "../feature/authentication/components/update-password-form";
+import UpdatePasswordForm from "../feature/authentication/update-password-form";
 
-const UpdatePassword = () => {
+const UpdatePasswordPage = () => {
   return <UpdatePasswordForm />;
 };
-export default UpdatePassword;
+export default UpdatePasswordPage;

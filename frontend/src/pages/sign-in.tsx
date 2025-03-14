@@ -1,6 +1,6 @@
-import SignInForm from "../feature/authentication/components/sign-in-form";
+import SignInForm from "../feature/authentication/sign-in-form";
 
-const SignIn = () => {
+const SignInPage = () => {
   return <SignInForm />;
 };
-export default SignIn;
+export default SignInPage;

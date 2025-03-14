@@ -1,4 +1,4 @@
-import OnboardingForm from "../feature/authentication/components/on-boarding-form";
+import OnboardingForm from "../feature/authentication/on-boarding-form";
 
 const OnBoarding = () => {
   return <OnboardingForm />;

@@ -1,6 +1,6 @@
-import SignUpForm from "../feature/authentication/components/sign-up-form";
+import SignUpForm from "../feature/authentication/sign-up-form";
 
-const SignUp = () => {
+const SignUpPage = () => {
   return <SignUpForm />;
 };
-export default SignUp;
+export default SignUpPage;

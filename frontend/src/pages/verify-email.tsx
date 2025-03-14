@@ -1,6 +1,6 @@
-import VerifyEmailForm from "../feature/authentication/components/verify-email-code-form";
+import VerifyEmailForm from "../feature/authentication/verify-email-code-form";
 
-const VerifyEmail = () => {
+const VerifyEmailPage = () => {
   return <VerifyEmailForm />;
 };
-export default VerifyEmail;
+export default VerifyEmailPage;
