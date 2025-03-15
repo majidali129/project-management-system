@@ -29,9 +29,9 @@ export default function OnboardingForm() {
           <div className="space-y-4">
             <div
               className={` p-4 md:p-6 rounded border cursor-pointer shadow-lg bg-slate-200 dark:bg-slate-900 transition-all ${
-                selectedOption === UserRole.PROJECT_MANAGER ? "border-amber-500 bg-slate-100  dark:bg-slate-900/40" : "dark:border-slate-700 dark:hover:border-slate-600"
+                selectedOption === UserRole["Project-Manager"] ? "border-amber-500 bg-slate-100  dark:bg-slate-900/40" : "dark:border-slate-700 dark:hover:border-slate-600"
               }`}
-              onClick={() => setSelectedOption(UserRole.PROJECT_MANAGER)}
+              onClick={() => setSelectedOption(UserRole["Project-Manager"])}
             >
               <div className="flex items-start gap-4">
                 <div className="p-3 border border-slate-400 dark:border-0 dark:bg-slate-950 rounded-full">
@@ -41,15 +41,15 @@ export default function OnboardingForm() {
                   <h3 className="md:text-xl font-semibold text-slate-800 dark:text-slate-200">I'm a Project Manager/Admin</h3>
                   <p className="text-slate-600 dark:text-slate-400  mt-1">Create and manage projects, assign tasks, track progress</p>
                 </div>
-                <div className="ml-auto">{selectedOption === UserRole.PROJECT_MANAGER && <Badge>Selected</Badge>}</div>
+                <div className="ml-auto">{selectedOption === UserRole["Project-Manager"] && <Badge>Selected</Badge>}</div>
               </div>
             </div>
 
             <div
               className={`p-6 rounded border shadow-lg cursor-pointer bg-slate-200 dark:bg-slate-900 transition-all ${
-                selectedOption === UserRole.DEVELOPER ? "border-amber-500 bg-slate-100  dark:bg-slate-900/40" : "dark:border-slate-700 dark:hover:border-slate-600"
+                selectedOption === UserRole.Developer ? "border-amber-500 bg-slate-100  dark:bg-slate-900/40" : "dark:border-slate-700 dark:hover:border-slate-600"
               }`}
-              onClick={() => setSelectedOption(UserRole.DEVELOPER)}
+              onClick={() => setSelectedOption(UserRole.Developer)}
             >
               <div className="flex items-start gap-4">
                 <div className="p-3 border border-slate-400 dark:border-0 dark:bg-slate-950 rounded-full">
@@ -59,7 +59,7 @@ export default function OnboardingForm() {
                   <h3 className="md:text-xl font-semibold text-slate-800 dark:text-slate-200">I'm a Developer/Team Member</h3>
                   <p className="text-slate-600 dark:text-slate-400 mt-1">View assigned tasks, update progress, collaborate with team</p>
                 </div>
-                <div className="ml-auto">{selectedOption === UserRole.DEVELOPER && <Badge>Selected</Badge>}</div>
+                <div className="ml-auto">{selectedOption === UserRole.Developer && <Badge>Selected</Badge>}</div>
               </div>
             </div>
           </div>

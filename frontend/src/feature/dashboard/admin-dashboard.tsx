@@ -1,7 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { MyLineChart } from "@/feature/dashboard/line-chart";
 import { MyPieChart } from "@/feature/dashboard/pi-chart";
-
 import DashboardStats from "./dashboard-stats";
 import RecentActivities from "./recent-activities";
 import TodaysTasks from "./todays-tasks";

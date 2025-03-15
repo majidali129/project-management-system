@@ -21,6 +21,7 @@ import Providers from "./providers/provider";
 
 const App = () => {
   const [role] = useState("admin");
+
   return (
     <Providers>
       <Routes>
@@ -48,10 +49,10 @@ const App = () => {
 
         <Route element={<AuthLayout />}>
           <Route path="/users/sign-up" element={<SignUpPage />} />
+          <Route path="/users/verify-email" element={<VerifyEmailPage />} />
           <Route path="/users/sign-in" element={<SignInPage />} />
           <Route path="/users/forgot-password" element={<ForgotPasswordPage />} />
           <Route path="/users/verify-otp" element={<VerifyPasswordResetOtpPage />} />
-          <Route path="/users/verify-email" element={<VerifyEmailPage />} />
         </Route>
         <Route
           element={

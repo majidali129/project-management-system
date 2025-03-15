@@ -18,8 +18,18 @@ export interface IUser {
   projects?: string[];
   tasks?: string[];
   teams?: string[];
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+export interface IUserLogin {
+  email: string;
+  password: string;
+}
+
+export interface IUpdatePassword {
+  oldPassword: string;
+  newPassword: string;
 }
 
 export interface ITeam {
