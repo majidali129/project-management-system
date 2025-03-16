@@ -1,4 +1,4 @@
-import { appError } from '../utils/appError.js';
+import { apiError } from "#utils/api-error.js";
 
 const sendErrorDev = (err, res) => {
     res.status(err.statusCode).json({
@@ -30,13 +30,13 @@ const sendErrorProd = (err, res) => {
 
 const handleCastErrorDB = (err) => {
     const message = `Invalid ${err.path}: ${err.value}`;
-    return new appError(message, 400);
+    return new apiError(message, 400);
 };
 
 const handleDuplicateFieldsDB = (err) => {
     const value = err.errmsg.match(/(["'])(\\?.)*?\1/)[0];
     const message = `Duplicate field value: ${value}. Please use another value`;
-    return new appError(message, 400);
+    return new apiError(message, 400);
 };
 
 const handleValidationError = (err) => {
@@ -44,12 +44,12 @@ const handleValidationError = (err) => {
         .map((el) => el.message)
         .join('. ');
     const message = `Invalid input data. ${errors}`;
-    return new appError(message, 400);
+    return new apiError(message, 400);
 };
 
-const handleJWTError = () => new appError('Invalid token. Please log in again!', 401);
+const handleJWTError = () => new apiError('Invalid token. Please log in again!', 401);
 
-const handleJWTExpiredError = () => new appError('Your token has expired! Please log in again.', 401);
+const handleJWTExpiredError = () => new apiError('Your token has expired! Please log in again.', 401);
 
 const globalErrorController = (err, req, res, next) => {
     err.statusCode = err.statusCode || 500;

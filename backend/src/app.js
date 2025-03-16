@@ -1,64 +1,77 @@
 import express from 'express';
 
+import { logger } from '#loggers/logger.js';
+import { globalErrorHandler } from '#middlewares/globalError.middleware.js';
+import { apiError } from '#utils/api-error.js';
 import bodyParser from 'body-parser';
-import mongoSanitize from 'express-mongo-sanitize';
-import rateLimit from 'express-rate-limit';
-import helmet from 'helmet';
+import cookieParser from 'cookie-parser';
+import cors from 'cors';
 import morgan from 'morgan';
-import { appError } from './utils/app-error.js';
+import userRouter from "./routes/user.route.js";
 
-// import xss from 'xss-clean';
-// import hpp from 'hpp'
 
 export const app = express();
+const morganFormat = ':method :url :status :response-time ms';
 
-// GLOBAL MIDDLEWARES
-app.use(helmet());
 
-// Limit The Request from same IP;
-const limiter = rateLimit({
-    limit: 100,
-    windowMs: 60 * 60 * 1000,
-    message: 'Too many requests from this IP. Try again after 45 minutes',
-});
+const corsOptions = {
+    origin: 'http://localhost:5173',
+    credentials: true,
+    allowedHeaders: ['Origin', 'Content-Type', 'Accept', 'Authorization'],
+    methods: 'GET, POST, PUT, DELETE, OPTIONS',
+    allowedOrigins: ['http://localhost:3000', 'http://localhost:5000', 'http://localhost:5173'],
+    preflightContinue: true,
+}
+
+cors(corsOptions)
 
 // DEVELOMPMENT LGGING ONLY
 if (process.env.NODE_ENV === 'development') {
     app.use(morgan('dev'));
 }
 
-app.get('/', (req, res) => res.json({ message: 'Hi there from Majid Ali', url: req.ip }));
+app.get('/', (req, res) => res.json({ message: 'Hi there from Majid Ali', IP: req.ip }));
 // TO ACCEPT BODY IN THE REQUEST
 app.use(express.json({ limit: '100kb' }));
+app.use(cookieParser())
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+// COMMON MIDDLEWARES
+app.use(
+    morgan(morganFormat, {
+        stream: {
+            write: (message) => {
+                const logObject = {
+                    method: message.split(' ')[0],
+                    url: message.split(' ')[1],
+                    status: message.split(' ')[2],
+                    responseTime: message.split(' ')[3],
+                };
+                logger.info(JSON.stringify(logObject));
+            },
+        },
+    })
+);
 
 // TO SERVE STATIC FILES
 app.use(express.static('./public'));
 
-// TO PREVENT BRUTE-FORCE/DOC ATTACK
-app.use('/api', limiter);
 
-// Sanitize data against noSQL query injection
-app.use(mongoSanitize());
+// App Routes;
 
-// Sanitization againt XSS attacks
-// app.use(xss());
+app.use('/api/users', userRouter)
 
-// Preventing the url population
-// app.use(
-//     hpp({
-//       whitelist: ['price', 'duration', 'maxGroupSize', 'difficulty', 'ratingsAverage']
-//     })
-//   );
 
 app.use((req, _, next) => {
-    //   req.requestTime = new Date().toISOString();
+    req.requestTime = new Date().toISOString();
     next();
 });
 
 app.all('*', (req, _, next) => {
-    next(new appError(`Can't find ${req.originalUrl} on this server.`, 404));
+    next(new apiError(`Can't find ${req.originalUrl} on this server.`, 404));
 });
 
 // GLOBAL ERROR HANDLER
+app.use(globalErrorHandler)
+// app.use(globalErrorController)
