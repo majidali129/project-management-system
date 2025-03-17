@@ -47,19 +47,15 @@ const registerUser = asyncHandler(async (req, res, next) => {
 })
 
 const loginUser = asyncHandler(async (req, res, next) => {
-    const userData = await req.body;
-    const user = await User.findOne({ email: userData.email });
+    const { email, password } = await req.body;
+    const user = await User.findOne({ email });
     if (!user) return next(new apiError(400, 'Record not found'));
-    const isPasswordCorrect = await user.isPasswordCorrect(userData.password, user.password);
+    const isPasswordCorrect = await user.isPasswordCorrect(password, user.password);
     if (!isPasswordCorrect) return next(new apiError(400, 'Invalid email or password!'));
     const { accessToken, refreshToken } = await setAccessRefreshTokens(user._id);
     user.refreshToken = refreshToken;
     user.isActive = true;
     await user.save({ validateBeforeSave: false });
-
-    const loggedInUser = await User.findById(user._id).select(
-        '-password -refreshToken -emailVerificationToken -emailVerificationExpiry'
-    );
 
     const cookieOptions = {
         httpOnly: true,
@@ -67,11 +63,16 @@ const loginUser = asyncHandler(async (req, res, next) => {
         sameSite: 'strict'
     }
 
+    const session = {
+        id: user._id,
+        userName: user.userName,
+        role: user.role,
+        accessToken, refreshToken
+    }
+
     res.cookie('accessToken', accessToken, cookieOptions);
     res.cookie('refreshToken', refreshToken, cookieOptions);
-    user.password = undefined;
-    user.refreshToken = undefined;
-    return res.status(200).json(new apiResponse(200, 'User logged in successfully', loggedInUser, { accessToken, refreshToken }))
+    return res.status(200).json(new apiResponse(200, 'User logged in successfully', session))
 })
 const getAllUsers = asyncHandler(async (req, res, next) => {
     const users = await User.find()
@@ -83,6 +84,22 @@ const getUserProfile = asyncHandler(async (req, res, next) => {
         '-password -refreshToken -emailVerificationToken -emailVerificationExpiry'
     );
     return res.status(200).json(new apiResponse(200, 'User profile fetched successfully', user))
+})
+
+const getSession = asyncHandler(async (req, res) => {
+    const user = await User.findById(req.user._id).select(
+        '-password -refreshToken -emailVerificationToken -emailVerificationExpiry'
+    );
+
+    const session = {
+        id: user._id,
+        userName: user.userName,
+        role: user.role,
+        isActive: user.isActive,
+        avatar: user.profilePhoto
+    }
+
+    return res.status(200).json(new apiResponse(200, 'Fetched current user', session))
 })
 
 const updatePassword = asyncHandler(async (req, res, next) => {
@@ -109,5 +126,5 @@ const logoutUser = asyncHandler(async (req, res, next) => {
     await user.save({ validateBeforeSave: false });
     return res.status(200).json(new apiResponse(200, 'User logged out'))
 })
-export { getAllUsers, getUserProfile, loginUser, logoutUser, registerUser, updatePassword };
+export { getAllUsers, getSession, getUserProfile, loginUser, logoutUser, registerUser, updatePassword };
 

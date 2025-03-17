@@ -3,15 +3,23 @@ export const enum UserRole {
   "Developer" = "Developer",
 }
 
-export interface IUser {
+export interface Session {
   id: string;
+  userName: string;
+  role: string;
+  isActive: string;
+  avatar?: string;
+}
+
+export interface IUser {
+  _id: string;
   userName: string;
   fullName: string;
   email: string;
   password: string;
   role: UserRole;
   permissions: string[];
-  isActive: boolean;
+  isActive?: boolean;
   profilePhoto?: string;
   experience?: string;
   skills?: string[];
@@ -22,24 +30,14 @@ export interface IUser {
   updatedAt?: Date;
 }
 
-export interface IUserLogin {
-  email: string;
-  password: string;
-}
-
-export interface IUpdatePassword {
-  oldPassword: string;
-  newPassword: string;
-}
-
 export interface ITeam {
   id: string;
   name: string;
   domain: string;
-  teamLead: Pick<IUser, "userName" | "profilePhoto" | "id" | "fullName">;
-  project: Pick<IProject, "title" | "id" | "assignedTeam" | "domain">;
-  tasks: Pick<ITask, "title" | "assignee" | "id" | "status" | "dueDate">[];
-  members: Pick<IUser, "userName" | "profilePhoto" | "id">[];
+  teamLead: Pick<IUser, "userName" | "profilePhoto" | "_id" | "fullName">;
+  project: Pick<IProject, "title" | "_id" | "assignedTeam" | "domain">;
+  tasks: Pick<ITask, "title" | "assignee" | "_id" | "status" | "dueDate">[];
+  members: Pick<IUser, "userName" | "profilePhoto" | "_id">[];
   description: string;
   createdAt: Date;
   updatedAt: Date;
@@ -60,13 +58,13 @@ export const enum TaskPriority {
 }
 
 export interface ITask {
-  id: string;
+  _id: string;
   title: string;
   description: string;
   status: TaskStatus;
   priority: TaskPriority;
   dueDate: Date;
-  assignee: Pick<IUser, "userName" | "profilePhoto" | "id" | "fullName">;
+  assignee: Pick<IUser, "userName" | "profilePhoto" | "_id" | "fullName">;
   isPersonal: boolean;
   createdBy: string;
   completedAt: Date;
@@ -84,7 +82,7 @@ export const enum ProjectStatus {
 }
 
 export interface IProject {
-  id: string;
+  _id: string;
   title: string;
   description: string;
   status: ProjectStatus;

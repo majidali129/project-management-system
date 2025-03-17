@@ -20,10 +20,10 @@ const corsOptions = {
     allowedHeaders: ['Origin', 'Content-Type', 'Accept', 'Authorization'],
     methods: 'GET, POST, PUT, DELETE, OPTIONS',
     allowedOrigins: ['http://localhost:3000', 'http://localhost:5000', 'http://localhost:5173'],
-    preflightContinue: true,
+    // preflightContinue: true,
 }
 
-cors(corsOptions)
+app.use(cors(corsOptions))
 
 // DEVELOMPMENT LGGING ONLY
 if (process.env.NODE_ENV === 'development') {

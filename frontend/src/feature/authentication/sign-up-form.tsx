@@ -1,4 +1,6 @@
 import { Button } from "@/components/ui/button";
+import { UserRole } from "@/types";
+import { AdminPermissions, DevPermissions } from "@/utils/constants";
 import { EyeIcon, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -6,21 +8,28 @@ import Input from "../../components/Input";
 import FormItem from "../../components/form-item";
 import FormWrapper from "../../components/form-wrapper";
 import InputErrorMessage from "../../components/input-error-message";
+import { useSignUp } from "./use-sign-up";
 
 type SignUpFormValues = {
   userName: string;
   fullName: string;
   email: string;
   password: string;
+  confirmPassword: string;
 };
 
 const SignUpForm = () => {
   const [showPassword, setShowPassword] = useState(false);
-
+  const { createUser, creatingUser } = useSignUp();
+  const [role] = useState<UserRole>(() => {
+    const role = localStorage.getItem("role") as UserRole;
+    return role ? role : UserRole.Developer;
+  });
   const {
     register,
     handleSubmit,
     watch,
+    reset,
     formState: { errors },
   } = useForm<SignUpFormValues>({
     mode: "onChange",
@@ -34,7 +43,13 @@ const SignUpForm = () => {
   });
 
   const onSubmit = (data: SignUpFormValues) => {
-    console.log("Form Submitted: ", data);
+    const permissions = role === UserRole["Project-Manager"] ? AdminPermissions : DevPermissions;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { confirmPassword, ...userData } = { ...data, permissions, role };
+
+    createUser(userData, {
+      onSettled: () => reset(),
+    });
   };
 
   return (
@@ -42,6 +57,7 @@ const SignUpForm = () => {
       <h2 className="text-2xl md:text-4xl font-semibold text-center">Sign Up</h2>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-3 md:space-y-4">
         {/* Username */}
+        <Input type="hidden" value={role} />
         <FormItem name="userName" label="Username">
           <Input type="text" {...register("userName", { required: "Username is required" })} />
 
@@ -102,7 +118,9 @@ const SignUpForm = () => {
 
         {/* Submit Button */}
         <div className="flex justify-end">
-          <Button type="submit">Register</Button>
+          <Button disabled={creatingUser} type="submit">
+            {creatingUser ? <span>Wait</span> : " Register"}
+          </Button>
         </div>
       </form>
     </FormWrapper>

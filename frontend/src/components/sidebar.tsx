@@ -1,6 +1,7 @@
-import { Activity, CheckSquare, FolderKanban, LayoutDashboard, LogOut, LucideIcon, Settings, User, Users } from "lucide-react";
-import { useState } from "react";
+import { useUser } from "@/feature/authentication/use-user";
+import { Activity, CheckSquare, FolderKanban, LayoutDashboard, LucideIcon, Settings, User, Users } from "lucide-react";
 import { NavLink } from "react-router";
+import Logout from "./logout";
 
 type NavLinkType = {
   label: string;
@@ -9,9 +10,9 @@ type NavLinkType = {
 };
 
 const Sidebar = () => {
-  const [role] = useState<"user" | "admin">("admin");
+  const { session, isAdmin } = useUser();
 
-  const dashboardPath = role === "admin" ? "/dashboard/admin" : `/dashboard/${"majid"}`;
+  const dashboardPath = isAdmin ? "/dashboard/admin" : `/dashboard/${session?.data.userName}`;
 
   // Define links
   const links: NavLinkType[] = [
@@ -47,12 +48,7 @@ const Sidebar = () => {
         ))}
       </ul>
 
-      <div className=" max-sm:max-w-[76px]">
-        <button className=" bg-slate-800 w-full flex items-center max-sm:justify-center py-4 md:py-2 px-4  hover:!bg-gradient-to-r hover:!from-blue-200/50 hover:!to-amber-300/50">
-          <LogOut className="h-5 w-5 " />
-          <span className="hidden md:block">Logout</span>
-        </button>
-      </div>
+      <Logout />
     </aside>
   );
 };

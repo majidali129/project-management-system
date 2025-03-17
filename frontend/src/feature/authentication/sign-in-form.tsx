@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { IUser } from "@/types";
 import { EyeIcon, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -6,17 +7,17 @@ import Input from "../../components/Input";
 import FormItem from "../../components/form-item";
 import FormWrapper from "../../components/form-wrapper";
 import InputErrorMessage from "../../components/input-error-message";
+import { useSignIn } from "./use-sign-in";
 
-type SignInFormValues = {
-  email: string;
-  password: string;
-};
+type SignInFormValues = Pick<IUser, "email" | "password">;
 
 const SignInForm = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const { login, loggingUser } = useSignIn();
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<SignInFormValues>({
     mode: "onChange",
@@ -27,7 +28,9 @@ const SignInForm = () => {
   });
 
   const onSubmit = (data: SignInFormValues) => {
-    console.log("Form Submitted: ", data);
+    login(data, {
+      onSettled: () => reset(),
+    });
   };
 
   return (
@@ -61,7 +64,9 @@ const SignInForm = () => {
         </FormItem>
 
         <div className="flex justify-end">
-          <Button type="submit">Login</Button>
+          <Button disabled={loggingUser} type="submit">
+            {loggingUser ? "Wait..." : "Login"}
+          </Button>
         </div>
       </form>
     </FormWrapper>

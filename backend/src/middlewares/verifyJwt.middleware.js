@@ -13,19 +13,19 @@ export const verifyJwt = asyncHandler(async (req, res, next) => {
 
         if (!token)
             return next(
-                new apiError(401, 'Invalid access token. please login to get access')
+                new apiError(401, 'You are not logged in! please log in to get access')
             );
 
         const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
         const user = await User.findById(decoded._id);
-        if (!user) return next(new apiError(401, 'Invalid access token. please login to get access'))
+        if (!user) return next(new apiError(401, 'User belonging to this token does no longer exists'))
 
         req.user = user;
         next()
     } catch (error) {
         console.log('error jwt', error)
         return next(
-            new apiError(401, 'Invalid access token. please login to get access')
+            new apiError(401, 'Unauthorized access. Please login to get access')
         )
     }
 })
