@@ -21,7 +21,7 @@ import VerifyPasswordResetOtpPage from "./pages/verify-otp";
 
 const App = () => {
   const { session, isAdmin } = useUser();
-  const userName = session?.data.userName;
+  const userName = session?.userName;
 
   return (
     <Routes>

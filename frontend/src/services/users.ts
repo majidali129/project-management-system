@@ -1,11 +1,8 @@
-import { IUser, Session } from "@/types";
+import { AllUsers, Session, SignIn, SignUp, User } from "@/types";
 import { api, ApiResponse } from "./api";
 
-type SignUp = Pick<IUser, "userName" | "fullName" | "email" | "password" | "role" | "permissions">;
-type SignIn = Pick<IUser, "email" | "password">;
-
-export const registerUser = async (data: SignUp): Promise<ApiResponse<IUser>> => {
-  return api.post<IUser, SignUp>("/users/", data);
+export const registerUser = async (data: SignUp): Promise<ApiResponse<User>> => {
+  return api.post<User, SignUp>("/users/", data);
 };
 
 export const loginUser = async (data: SignIn): Promise<ApiResponse<Session>> => {
@@ -16,12 +13,15 @@ export const getSession = async (): Promise<ApiResponse<Session>> => {
   return api.get<Session>("/users/session");
 };
 
-export const getUserProfile = async (userId: string): Promise<ApiResponse<IUser>> => {
-  const response = await api.get<IUser>(`/users/${userId}/profile`);
-  return response;
+export const getUserProfile = async (userId: string): Promise<ApiResponse<User>> => {
+  return api.get<User>(`/users/${userId}/profile`);
 };
 
-export const logoutUser = async (): Promise<ApiResponse<void>> => {
+export const getAllUsers = async (): Promise<ApiResponse<AllUsers[]>> => {
+  return api.get<AllUsers[]>("/users");
+};
+
+export const logoutUser = async (): Promise<ApiResponse<null>> => {
   return api.get("/users/logout");
 };
 export const verifyEmail = async (verifyToken: number) => {
@@ -40,10 +40,5 @@ export const resetPassword = async (token: string, newPassword: string) => {
 };
 export const updatePassword = async (oldPassword: string, newPassword: string) => {
   const response = await api.patch("/users/update-password", { oldPassword, newPassword });
-  return response.data;
-};
-
-export const getAllUsers = async () => {
-  const response = await api.get("/users");
   return response.data;
 };

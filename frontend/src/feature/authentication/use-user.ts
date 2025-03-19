@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 
 export const useUser = () => {
   const {
-    data: session,
+    data,
     isPending: loadingSession,
     error: sessionError,
   } = useQuery({
@@ -12,5 +12,5 @@ export const useUser = () => {
     queryFn: getSession,
   });
 
-  return { session, isAdmin: session?.data?.role === UserRole["Project-Manager"], isAuthenticated: session?.data ? true : false, loadingSession, sessionError } as const;
+  return { session: data?.data, isAdmin: data?.data?.role === UserRole["Project-Manager"], isAuthenticated: data?.data ? true : false, loadingSession, sessionError } as const;
 };

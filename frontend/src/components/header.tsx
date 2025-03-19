@@ -31,7 +31,7 @@ const Header = () => {
         <div className="flex items-center">
           <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User" className="h-8 w-8 rounded-full border-2 border-blue-500" />
           <div className="ml-2 hidden sm:block">
-            <p className="text-sm font-medium not-dark:text-slate-800">{session?.data.userName}</p>
+            <p className="text-sm font-medium not-dark:text-slate-800">{session?.userName}</p>
             <p className="text-xs text-gray-500 dark:text-gray-400">{isAdmin ? "Admin" : "Developer"}</p>
           </div>
         </div>

@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { IUser } from "@/types";
+import { SignIn } from "@/types";
 import { EyeIcon, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -9,8 +9,6 @@ import FormWrapper from "../../components/form-wrapper";
 import InputErrorMessage from "../../components/input-error-message";
 import { useSignIn } from "./use-sign-in";
 
-type SignInFormValues = Pick<IUser, "email" | "password">;
-
 const SignInForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const { login, loggingUser } = useSignIn();
@@ -19,7 +17,7 @@ const SignInForm = () => {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<SignInFormValues>({
+  } = useForm<SignIn>({
     mode: "onChange",
     defaultValues: {
       email: "",
@@ -27,7 +25,7 @@ const SignInForm = () => {
     },
   });
 
-  const onSubmit = (data: SignInFormValues) => {
+  const onSubmit = (data: SignIn) => {
     login(data, {
       onSettled: () => reset(),
     });

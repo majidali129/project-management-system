@@ -1,10 +1,7 @@
+import { cn } from "@/lib/utils";
 import { ReactNode } from "react";
 
-const FormWrapper = ({ children }: { children: ReactNode }) => {
-  return (
-    <div className=" p-6 md:p-8 space-y-6  bg-white text-slate-900 dark:text-slate-100  dark:bg-slate-900 max-w-md mx-auto w-full">
-      {children}
-    </div>
-  );
+const FormWrapper = ({ children, className }: { children: ReactNode; className?: string }) => {
+  return <div className={cn(`p-6 md:p-8 space-y-6  text-text  bg-white dark:text-slate-100  dark:bg-slate-900 max-w-md  mx-auto w-full`, className)}>{children}</div>;
 };
 export default FormWrapper;

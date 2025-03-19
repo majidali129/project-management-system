@@ -1,32 +1,17 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Progress } from "@/components/ui/progress";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { AlertCircle, Calendar, CheckCircle, Clock, Edit, GripVertical, MoreHorizontal, PauseCircle, Star, StarOff, Trash2, Users } from "lucide-react";
-import { useState } from "react";
+import { Project, UserRole } from "@/types";
+import { differenceInDays, format } from "date-fns";
+import { AlertCircle, Calendar, CheckCircle, Clock, Edit, MoreVertical, PauseCircle, Trash2, Users } from "lucide-react";
+import { useUser } from "../authentication/use-user";
 
 interface ProjectCardProps {
-  project: {
-    id: string;
-    name: string;
-    description: string;
-    createdBy: string;
-    progress: number;
-    status: "active" | "completed" | "paused" | "at-risk";
-    startDate: string;
-    endDate: string;
-    team: {
-      id: string;
-      name: string;
-      avatar?: string;
-      initials: string;
-    }[];
-    tags: string[];
-    isStarred?: boolean;
-  };
+  project: Project;
 }
 // Status badge styling
 const getStatusBadge = (status: string) => {
@@ -60,41 +45,25 @@ const getStatusBadge = (status: string) => {
   }
 };
 export default function ProjectCard({ project }: ProjectCardProps) {
-  const [isStarred, setIsStarred] = useState(project.isStarred || false);
-  const currentUser = { username: "majidali129", role: "pm" };
+  const { session } = useUser();
 
   const statusBadge = getStatusBadge(project.status);
-  const isOwnToProject = project.createdBy === currentUser.username && currentUser.role === "pm";
+  const isOwnToProjectOrPm = project.createdBy === session?.userName && session.role === UserRole["Project-Manager"];
   return (
     <TooltipProvider>
       <Card className="group relative transition-all hover:shadow-md dark:hover:shadow-primary/5">
-        {/* Drag handle - visible on hover */}
-        <div className="absolute left-1 top-1/2 -translate-y-1/2 cursor-grab opacity-0 transition-opacity group-hover:opacity-100" aria-label="Drag to reorder">
-          <GripVertical className="h-5 w-5 text-muted-foreground" />
-        </div>
-
         <CardHeader className="pb-2">
-          <div className="flex items-start justify-between">
+          <div className="flex items-start justify-between gap-1">
             <div className="space-y-1">
-              <h3 className="text-lg font-semibold leading-tight line-clamp-1">{project.name}</h3>
-              <p className="text-sm text-muted-foreground line-clamp-2">{project.description}</p>
+              <h3 className="text-lg font-semibold leading-tight line-clamp-1">{project.title}</h3>
+              <p className="text-[15px] text-muted-foreground line-clamp-2">{project.description}</p>
             </div>
-            <div className="flex items-center gap-2">
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-primary" onClick={() => setIsStarred(!isStarred)}>
-                    {isStarred ? <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" /> : <StarOff className="h-4 w-4" />}
-                    <span className="sr-only">{isStarred ? "Unstar project" : "Star project"}</span>
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>{isStarred ? "Remove from favorites" : "Add to favorites"}</TooltipContent>
-              </Tooltip>
-
-              {isOwnToProject && (
+            <div className="">
+              {isOwnToProjectOrPm && (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button variant="ghost" size="icon" className="h-8 w-8">
-                      <MoreHorizontal className="h-4 w-4" />
+                      <MoreVertical className="h-4 w-4" />
                       <span className="sr-only">Open menu</span>
                     </Button>
                   </DropdownMenuTrigger>
@@ -108,10 +77,12 @@ export default function ProjectCard({ project }: ProjectCardProps) {
                       Manage team
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem>
-                      <CheckCircle className="mr-2 h-4 w-4" />
-                      Mark as completed
-                    </DropdownMenuItem>
+                    {project.isPersonal && (
+                      <DropdownMenuItem>
+                        <CheckCircle className="mr-2 h-4 w-4" />
+                        Mark as completed
+                      </DropdownMenuItem>
+                    )}
                     <DropdownMenuItem>
                       <PauseCircle className="mr-2 h-4 w-4" />
                       Pause project
@@ -128,7 +99,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
           </div>
         </CardHeader>
 
-        <CardContent className="pb-2">
+        <CardContent className="min-h-24">
           <div className="space-y-4">
             <div className="space-y-2">
               <div className="flex items-center justify-between text-sm">
@@ -144,24 +115,25 @@ export default function ProjectCard({ project }: ProjectCardProps) {
                 {statusBadge.label}
               </Badge>
 
-              {project.tags.map((tag) => (
-                <Badge key={tag} variant="outline">
-                  {tag}
-                </Badge>
-              ))}
+              {project.tags &&
+                project.tags.slice(0, 2).map((tag) => (
+                  <Badge key={tag} variant="outline">
+                    {tag}
+                  </Badge>
+                ))}
             </div>
 
             <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-muted-foreground">
               <div className="flex items-center">
                 <Calendar className="mr-1 h-4 w-4" />
                 <span>
-                  {new Date(project.startDate).toLocaleDateString()} - {new Date(project.endDate).toLocaleDateString()}
+                  {format(project.startDate, "MM/dd/yyyy")} - {format(project.endDate, "MM/dd/yyyy")}
                 </span>
               </div>
 
               <div className="flex items-center">
                 <Clock className="mr-1 h-4 w-4" />
-                <span>{Math.ceil((new Date(project.endDate).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24))} days left</span>
+                <span>{differenceInDays(project.endDate, new Date())} days left</span>
               </div>
             </div>
           </div>
@@ -169,39 +141,42 @@ export default function ProjectCard({ project }: ProjectCardProps) {
 
         <CardFooter>
           <div className="flex w-full items-center justify-between">
-            <div className="hidden md:flex -space-x-2">
-              {project.team.slice(0, 5).map((member) => (
-                <Tooltip key={member.id}>
-                  <TooltipTrigger asChild>
-                    <Avatar className="h-8 w-8 border-2 border-background">
-                      {member.avatar ? <AvatarImage src={member.avatar} alt={member.name} /> : null}
-                      <AvatarFallback className="text-xs">{member.initials}</AvatarFallback>
-                    </Avatar>
-                  </TooltipTrigger>
-                  <TooltipContent>{member.name}</TooltipContent>
-                </Tooltip>
-              ))}
+            {project.assignedTeam && (
+              <div className="hidden md:flex -space-x-2">
+                {project.assignedTeam.members.slice(0, 5).map((member) => (
+                  <Tooltip key={member._id}>
+                    <TooltipTrigger asChild>
+                      <Avatar className="h-8 w-8 border-2 border-background">
+                        profilePhoto <AvatarFallback className="text-xs">{member.userName[0]}</AvatarFallback>
+                      </Avatar>
+                    </TooltipTrigger>
+                    <TooltipContent>{member.userName}</TooltipContent>
+                  </Tooltip>
+                ))}
 
-              {project.team.length > 5 ? (
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Avatar className="flex h-8 w-8 items-center justify-center border-2 border-background bg-muted text-xs">+{project.team.length - 5}</Avatar>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    {project.team
-                      .slice(5)
-                      .map((member) => member.name)
-                      .join(", ")}
-                  </TooltipContent>
-                </Tooltip>
-              ) : null}
-            </div>
+                {project.assignedTeam.members.length > 5 ? (
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Avatar className="flex h-8 w-8 items-center justify-center border-2 border-background bg-muted text-xs">+{project.assignedTeam.members.length - 5}</Avatar>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      {project.assignedTeam.members
+                        .slice(5)
+                        .map((member) => member.userName)
+                        .join(", ")}
+                    </TooltipContent>
+                  </Tooltip>
+                ) : null}
+              </div>
+            )}
 
             <div className="flex gap-2">
-              <Button variant="outline" size="sm" className="max-md:h-9">
-                <Users className="mr-2 h-4 w-4" />
-                Assign
-              </Button>
+              {isOwnToProjectOrPm && (
+                <Button variant="outline" size="sm" className="max-md:h-9">
+                  <Users className="mr-2 h-4 w-4" />
+                  Assign
+                </Button>
+              )}
               <Button size="sm">View Details</Button>
             </div>
           </div>

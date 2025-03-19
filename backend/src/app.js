@@ -7,6 +7,7 @@ import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import morgan from 'morgan';
+import projectRouter from "./routes/project.route.js";
 import userRouter from "./routes/user.route.js";
 
 
@@ -61,6 +62,7 @@ app.use(express.static('./public'));
 // App Routes;
 
 app.use('/api/users', userRouter)
+app.use('/api/projects', projectRouter)
 
 
 app.use((req, _, next) => {
